@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<!-- venv\Scripts\activate
+    set FLASK_APP=route
+    flask run -->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>My recipes</title>
+  <!-- flask: use static file -->
+  <!-- Custom styles for this template -->
+  <link href=" {{ url_for('static', filename='base.css') }}" rel="stylesheet">
+
+  <!-- Bootstrap core CSS -->
+  <link href=" {{ url_for('static', filename='bootstrap-5.0.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <!-- browser utilize-->
+  <!-- Custom styles for this template -->
+  <link href="../../static/base.css" rel="stylesheet">
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../static/bootstrap-5.0.1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style type="text/css">
+    .picbutton img {
+      display: inline-block;
+      margin-bottom: -3px;
+      margin-right: 10px;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <header id="head_menu_bar" style="padding-bottom:60px">
+    <nav class="navbar navbar-expand-md  fixed-top bg-main-color ">
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <a class="navbar-brand ps-3 logo " style="width: 260px;" href="{{url_for('index')}}">My recipes</a>
+        <form class=" m-auto d-flex" action="{{ url_for('search') }}">
+          <input id="searchbox" name="keyword" type="search" value="" class="form-control" placeholder="Search...">
+          <button type="submit" style="border: 0; background: transparent">
+            <img src="../../static/icons/search(2).png" width="40" height="40" />
+          </button>
+        </form>
+        <!-- when  login  show this bar -->
+        <div id="header_user_bar" class="pe-3 d-flex" style="width:260px">
+          <a href="{{url_for('profile',subname='info')}}"><img id="login_user_icon" class="ms-auto" src="" style="display:block; margin:0 auto;border-radius: 50%;padding:3px;"
+            width="40" height="40"/></a>
+          <a href="{{url_for('news')}}" class="nav-link px-1 profilebar-text ">For you</a>
+          <a href="/profile/favorite" class="nav-link px-1 profilebar-text">Favorite</a>
+          <button onclick="javascript:window.location.href='/editrecipe/0'" class="user-bar-button">New recipe</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <div id="main_sight" class="container-md " style="max-width: 1140px;">
+      <div id="top_back" class="container d-flex pb-2" style=" 
+            width: 100%;
+            height: 200px;;  
+            background-attachment:fixed;
+            background-image:url(../../static/icons/profile_background.jpg)" class="container d-flex">
+        <div class="pt-5 my-auto d-flex">
+          <img id="top_user_icon" src="" style="border-radius: 50%;padding:3px;" width="80" height="80">
+          <div id="top_user_note" class="m-auto">
+            <div id="top_user_id" class="top_user_id"></div>
+            <div id="top_description"></div>
+          </div>
+        </div>
+      </div>
+      <!--subpage container-->
+      <nav>
+        <div class="nav nav-tabs  pt-1" id="nav-tab" role="tablist">
+          <div class="nav-link active contributor-id-text d-flex" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info"
+            type="button" role="tab" aria-controls="nav-info" aria-selected="true">
+            <img class="m-auto" src="../../static/icons/profile/home.png" height="25" width="25" /> 
+            <p class="m-auto"> My info</p>
+          </div>
+          <div class="nav-link contributor-id-text d-flex" id="nav-subscribed-tab" data-bs-toggle="tab" data-bs-target="#nav-subscribed"
+            type="button" role="tab" aria-controls="nav-subscribed" aria-selected="false">
+            <img class="m-auto" src="../../static/icons/profile/subscribe.png" height="25" width="25" /> 
+            <p class="m-auto"> My subscribed</p>
+          </div>
+          <div class="nav-link contributor-id-text d-flex" id="nav-favorite-tab" data-bs-toggle="tab" data-bs-target="#nav-favorite"
+            type="button" role="tab" aria-controls="nav-favorite" aria-selected="false">
+            <img  class="m-auto" src="../../static/icons/profile/favorite.png" height="25" width="25" />
+            <p class="m-auto"> My favorite</p>
+            </div>
+          <div class="nav-link contributor-id-text d-flex" id="nav-post-tab" data-bs-toggle="tab" data-bs-target="#nav-post" type="button"
+            role="tab" aria-controls="nav-post" aria-selected="false">
+            <img class="m-auto" src="../../static/icons/profile/post.png" height="25" width="25" />
+            <p class="m-auto"> My post</p>
+          </div>
+          <div id="totallikes" class="ms-auto my-auto" value=""> </div> &nbsp;&nbsp;
+          <div id="follower" class="my-auto" value=""></div>
+        </div>
+      </nav>
+      <!-- container of info page -->
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+          <div id="profile_info_container" class="container border  border-top-0">
+            <form id="profile_form" action="/profile/saveprofileinfo" enctype="multipart/form-data" method="POST">
+              <div class="pt-3 aui-info">
+                <img id="edit_user_icon" src="" style="display:block; margin:0 auto;border-radius: 50%;padding:3px;"
+                  width="80" height="80">
+                <input type="file" id="upload_profile_icon" name="upload_profile_icon" class="fileInput" value="" />
+              </div>
+              <div class="mb-3 col-6 offset-3">
+                <label for="lableid" class="form-label">ID</label>
+                <input type="text" name="id" class="form-control" value="" id="id">
+              </div>
+              <div class="mb-3 col-6 offset-3">
+                <label for="lableemail" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" value="" id="email"
+                  placeholder="name@example.com">
+              </div>
+              <div class="mb-3 col-6 offset-3">
+                <label for="lableaddress" class="form-label">Address</label>
+                <input type="text" name="address" class="form-control" value="" id="address">
+              </div>
+              <div class="mb-3 col-6 offset-3">
+                <label for="lablephone " class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control" value="" id="phone" placeholder="04xxxxx">
+              </div>
+              <div class="mb-3 col-6 offset-3">
+                <label for="labledescription" class="form-label">Description</label>
+                <textarea name="description" class="form-control" value="" id="description" rows="3"></textarea>
+              </div>
+              <div class="mb-3 col-6 offset-3 d-flex pb-5">
+                <button type="submit" form="profile_form" class="common-button">Update</button>
+                <a href="{{url_for('logout')}}" class="common-button ms-auto">Log Out</a>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- container of subscribe page -->
+        <div class="tab-pane fade" id="nav-subscribed"  role="tabpanel" aria-labelledby="nav-subscribed-tab">
+          <div style="min-height: 400px;" class="container border  border-top-0 ">
+            <div id="profile_subscribed_container" class="row mb-3"  ></div>
+
+          </div>
+        </div>
+
+        <!-- container of favorite page -->
+        <div class="tab-pane fade" id="nav-favorite" role="tabpanel" aria-labelledby="nav-favorite-tab">
+          <div  style="min-height: 400px;" class="container border  border-top-0 ">
+            <div id="profile_favorite_container" class="row row-cols-1 row-cols-md-5 mb-3"  ></div>
+
+          </div>
+        </div>
+
+
+        <!-- container of post page -->
+        <div class="tab-pane fade" id="nav-post" role="tabpanel" aria-labelledby="nav-post-tab">
+          <div style="min-height: 400px;" class="container border  border-top-0">
+            <div id="profile_post_container" class="row row-cols-1 row-cols-md-5 mb-3"  ></div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </main>
+
+
+  <script src="{{ url_for('static', filename='bootstrap-5.0.1-dist/js/bootstrap.bundle.min.js')}}"></script>
+  <script type=text/javascript src="{{url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+  <script type=text/javascript src="{{url_for('static', filename='main.js')}}"></script>
+  <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+      var usersrc="{{usersrc}}";
+      var login_status="{{login_status}}";
+      var subname="{{subname}}";
+
+      //login check
+      $(function() {
+            if (login_status =="true") {
+                  document.getElementById("header_user_bar").style.display="flex"; 
+                  document.getElementById("login_user_icon").src= usersrc;
+              }
+      })
+
+      //active tab
+      $(function() {
+        if(subname == "favorite")
+        {
+          $('#nav-favorite-tab').addClass("active");
+          $('#nav-favorite').addClass("active");
+          $('#nav-favorite').addClass("show");
+          $('#nav-info').removeClass("active");
+          $('#nav-info').removeClass("show");
+          $('#nav-info-tab').removeClass("active");
+
+        }
+
+        if(subname == "post")
+        {
+          $('#nav-post-tab').addClass("active");
+          $('#nav-post').addClass("active");
+          $('#nav-post').addClass("show");
+          $('#nav-info').removeClass("active");
+          $('#nav-info').removeClass("show");
+          $('#nav-info-tab').removeClass("active");
+
+        }
+      });
+
+  // initilization
+      $(function() {
+          $.getJSON($SCRIPT_ROOT + '/getprofileinfo',function(data) {
+
+            str_totallikes="<p class=\"m-auto contributor-id-text\">"+ data['totallikes']+" likes</p> ";
+            str_follower="<p  class=\"m-auto contributor-id-text\">"+ data['follower']+" followers</p> ";
+            document.getElementById("id").value=data['id'];
+            document.getElementById("top_user_id").innerHTML = data['id'];
+            document.getElementById("top_description").innerHTML = data['description'];
+
+            document.getElementById("email").value=data['email'];
+            document.getElementById("address").value=data['address'];
+            document.getElementById("phone").value=data['phone'];
+            document.getElementById("description").value=data['description'];
+            document.getElementById("totallikes").innerHTML = str_totallikes;
+            document.getElementById("follower").innerHTML = str_follower;
+            document.getElementById("login_user_icon").src=data['src'];
+            document.getElementById("top_user_icon").src=data['src'];
+            document.getElementById("edit_user_icon").src=data['src']; 
+    
+        });
+      });
+
+
+
+
+
+
+      /* load subscribed contributors */
+      $(function() {
+        $.getJSON($SCRIPT_ROOT + '/getsubscribe',function(data) {
+            str_subscribor=""
+            for (var value of data['subcribelist']) {     
+              btn_sub_class = "contributor-subscribe-btn";
+              if(value['substate'] === "true")
+                  {btn_sub_class = "contributor-subscribed-btn";}
+              str_subscribor+= "<div class=\"col-3 row  py-3 \">"+
+                            "<div class=\"col-auto ms-auto\">"+
+                                "<img src=\""+value['src']+"\" style=\"display:block; margin:0 auto;border-radius: 50%;padding:3px;\" width=\"60\" height=\"60\"/>"+
+                            "</div>"+
+                            "<div class=\"m-auto col-auto\">"+
+                                "<div class=\"contributor_pro contributor-id-text py-0\">"+value['id']+"</div>"+
+                                "<input value=\""+value['uid']+"\" style=\"display:none;\"></input>"+
+                                "<button value='"+value['substatus']+"' class=\"subscribe_button contributor-subscribed-btn "+btn_sub_class+" px-1\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Unsubscribe contributor\">subscribe</button>"+
+                            "</div>"+
+                        "</div>";
+           }  
+           document.getElementById("profile_subscribed_container").innerHTML=str_subscribor;
+           $('.subscribe_button').click(function(){
+              var contributor_id=$(this).prev().val();// 获取button的上一个元素
+              var sub_status=$(this).val();
+	          	if(sub_status== "true") {
+                $(this).addClass("contributor-subscribe-btn");
+                $(this).removeClass("contributor-subscribed-btn");
+                $(this).attr("title","Subscribe contributor");
+
+                $.post( $SCRIPT_ROOT + '/subscribeopration/0/'+ contributor_id);
+				            sub_status = false;
+		              }else{
+                $(this).addClass("contributor-subscribed-btn" );
+                $(this).removeClass("contributor-subscribe-btn");
+                $(this).attr("title","Unsubscribe contributor");
+                $.post( $SCRIPT_ROOT + '/subscribeopration/1/'+ contributor_id);
+				              sub_status = true;
+		            }
+                    $(this).val(sub_status);
+    });
+        });
+      });
+      
+      /* load favorite recipes */
+      $(function() {
+          $.getJSON($SCRIPT_ROOT + '/getfavorite',function(data) {
+            str_recipe =""
+             for (var value of data['recipes']) {
+              if (value['like'] === "true") {
+                  var heart_src = "../../static/icons/like_full.png";
+                  var heart_value = true;
+                  } else {
+                  var heart_src = "../../static/icons/like_2_32.png";
+                  var heart_value = false;
+                   }
+              str_recipe+=  "<div class=\"col p-3\">"+
+                "<div class=\"card h-100\">"+
+                  "<img src=\""+value['src']+"\" class=\"card-img-top\">"+
+                  "<div class=\"card-body\">"+
+                    "<a class=\"recipe-title\" href=\"/recipe/"+value['id']+"\"><h5 class=\"card-title text-center\" style=\"font-weight:bold\">"+value['title']+
+                              "</h5></a>"+
+                              "<p class=\" total_likes card-text text-center\">"+value['totallikes']+" likes</p>"+
+                              "<input value=\""+value['id']+"\" style=\"display:none;\"></input><input value=\""+value['totallikes']+"\" style=\"display:none;\"></input></div>"+
+                              "<p class=\"card-text m-auto\">By "+value['author']+"  </p>"+
+                              "<div class =\"ms-auto mb-0\">"+
+                              "<img class=\"like_icon\" value=\""+heart_value+"\" src=\""+heart_src+"\" type=\"button\""+
+                                "style=\"height: 32px; width: 32px;\"></div></div></div>";
+           }  
+           document.getElementById("profile_favorite_container").innerHTML=str_recipe;
+
+           $(".like_icon").click(function() {
+          totallikes =  $(this).parent().prev().prev().children()[3].value;
+          recipe_id =  $(this).parent().prev().prev().children()[2].value;
+          like_status = $(this).val();
+          if (like_status === '') {
+                $(this).val($(this).attr('value')==='true');
+                like_status = $(this).val();
+          }
+          console.log("like_status:", like_status, typeof like_status);
+                if(like_status === 'true' || like_status === true) {
+                      $(this).attr("src","../../static/icons/like_2_32.png")
+                       totallikes--;
+                      $.post( $SCRIPT_ROOT + '/likeopration/0/'+ recipe_id);
+                       like_status = false;
+                }else{
+                      $(this).attr("src","../../static/icons/like_full.png")
+                      totallikes++;
+                      $.post( $SCRIPT_ROOT + '/likeopration/1/'+ recipe_id);
+                      like_status = true;
+                }
+          $(this).parent().prev().prev().children()[3].value= totallikes;
+          $(this).parent().prev().prev().children()[1].innerText=totallikes+" likes";
+          $(this).val(like_status);
+            });
+  // like or cancel like
+        });
+      });
+
+       /* load post recipes */
+      $(function() {
+          $.getJSON($SCRIPT_ROOT + '/getposts',function(data) {
+            str_post =""
+             for (var value of data['recipes']) {
+              str_post+=  "<div class=\"col p-3\">"+
+                "<div class=\"card h-100\">"+
+                  "<img src=\""+value['src']+"\" class=\"card-img-top\">"+
+                  "<div class=\"card-body\">"+
+                    "<a class=\"recipe-title\" href=\"/recipe/"+value['id']+"\"><h5 class=\"card-title text-center\" style=\"font-weight:bold\">"+value['title']+
+                              "</h5></a>"+
+                              "<p class=\" total_likes card-text text-center\">"+value['totallikes']+" likes</p></div>"+
+                              "<div mb-0 style=\"text-align:right\">"+
+                                  "<a href=\"/editrecipe/"+value['id']+"\">"+
+                                  "<img src=\"../../static/icons/edit_icon_32.png\" type=\"button\" style=\" width: 32px; height:32px;\ data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Edit recipe\"></a>"+
+                                 "</div>"+
+                              "</div></div></div>";
+           }  
+           document.getElementById("profile_post_container").innerHTML=str_post;
+        });
+      });
+
+      $('#upload_profile_icon').change(function(){
+      var f = document.getElementById('upload_profile_icon').files[0];
+      var src = window.URL.createObjectURL(f);
+      $('#edit_user_icon').attr("src",src);
+      });
+      </script>
+</body>
+
+</html>

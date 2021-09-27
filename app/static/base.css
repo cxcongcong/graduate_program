@@ -1,0 +1,281 @@
+/*index_page*/
+.bg-main-color
+{
+  background-color:#F36F63!important
+}
+.logo
+{
+  font-family: "Segoe Script";
+  font-size: 22px;
+  font-weight: bold;
+  color:#fff !important;
+}
+.profilebar-text
+{
+  font-family: "Comic Sans MS";
+  font-size: 14px;
+  color:#fff !important;
+}
+.quick-access
+{
+  color: #6c757d;
+  padding: .25rem 1rem;
+  text-decoration: none;
+  display: inline-block;
+  background-color: #fff;
+  font-family: "Comic Sans MS";
+  font-size: 14px;
+  border-radius: 1rem;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  border-color: #6c757d;
+  cursor: pointer;
+}
+.quick-access:hover
+{  
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.user-bar-button {
+  color: #fff;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Comic Sans MS";
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #F36F63;
+  border: 1px solid #fff; 
+  border-radius: 5px; 
+  transition-duration: 0.4s;
+}
+
+.user-bar-button:hover {
+  background-color: #fff;
+  color: #F36F63;
+  border: 1px solid white; 
+}
+.index-head-text
+{
+  font-family: "Comic Sans MS";
+  font-size: 16px;
+  color: #212529 !important;
+
+}
+.contributor-id-text
+{
+  font-family: "Arial";
+  font-size: 14px;
+  text-align:center;
+  color: #212529 !important;
+}
+.contributor-subscribe-btn
+{
+  color: #F36F63;
+  padding: 1px 1px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Comic Sans MS";
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: .25rem;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid;
+}
+
+
+.contributor-subscribed-btn
+{
+  color: #fff;
+  padding: 1px 1px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Comic Sans MS";
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #F36F63;
+  border-radius: .25rem;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent;
+}
+
+
+.recipe-list-title
+{ 
+  font-family: "Arial";
+  font-size: 16px;
+  text-align:center;
+}
+.recipe-list-text
+{ 
+  font-family: "Arial";
+  font-size: 13px;
+  text-align:center;
+}
+
+.recipe-list-text
+{ 
+  font-family: "Arial";
+  font-size: 13px;
+  text-align:center;
+}
+
+/*profile_page*/
+.top_user_id
+{
+  font-family: "Arial";
+  font-size: 24px;
+  text-align:left;
+  color:#fff !important;
+  font-weight: bold;
+}
+/*edit_recipe_page*/
+.plus_button{
+  width: 32px;
+  height:32px;
+  background: url("../../static/icons/plus_32.png") no-repeat;
+  background-position: right bottom;
+  border-style: none;
+}
+/*profile page*/
+.user_card_id
+{
+  font-family: "Arial";
+  font-size: 24px;
+  text-align:center;
+  color:rgb(12, 12, 12) !important;
+  font-weight: bold;
+}
+.edit_button
+{
+  width: 32px;
+  height:32px;
+  background: url("../../static/icons/edit_icon_32.png") no-repeat;
+}
+.like_button
+{
+  width: 32px;
+  height:32px;
+  background: url("../../static/icons/like_32.png") no-repeat;
+  border-style: none;
+}
+.reduce_button{
+  width: 32px;
+  height:32px;
+  background: url("../../static/icons/reduce_32.png") no-repeat;
+  border-style: none;
+}
+
+.aui-info {
+  position: relative;
+}
+
+.fileInput{
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          opacity: 0;
+          display: block;
+          width: 3.5rem;
+          clear: both;
+          display: block;
+          margin: auto;
+          background-color: red;
+}
+
+/* recipe*/
+
+.recipe_card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+}
+
+.recipe_header{
+  font-family: "Comic Sans MS";
+  font-size: 16px;
+  color:#fff !important;
+  background-color: #F36F63;
+  padding: 0.25rem  ;
+  margin-bottom: 0;
+}
+
+.recipe-list-group {
+  list-style: square inside url("../../static/icons/point.png");
+}
+
+.recipe-list-group-numbered {
+  list-style: square inside url("../../static/icons/point.png");
+  counter-reset: section;
+}
+.recipe-list-group-numbered > li::before {
+  
+  content: "  Step " counters(section, ".") " ";
+  counter-increment: section;
+  font-family: "Comic Sans MS";
+  font-size: 16px;
+}
+
+.recipe-list-item {
+  padding: 0.75rem 1rem;
+  color: #212529;
+  text-decoration: none;
+  background-color: #fff;
+}
+
+.recipe-title
+{
+  text-decoration: none;
+  color: #212529;
+
+} 
+
+.common-button {
+  color: #fff;
+  padding: .5rem  1rem ;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Comic Sans MS";
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #F36F63;
+  border: 1px solid #F36F63; 
+  border-radius: 5px; 
+  transition-duration: 0.4s;
+}
+
+.common-button:hover {
+  background-color: #fff;
+  color: #F36F63;
+  border: 1px solid #F36F63; 
+}
+.border-recipe {
+  background-color: #F36F63 !important;
+  color: #fff;
+    font-family: "Comic Sans MS";
+  font-size: 16px;
+}
+
+/*common click class*/
+.subscribe_button
+{
+}
+
+.subscribe_button:hover {
+  color: rgb(39, 48, 88);
+}

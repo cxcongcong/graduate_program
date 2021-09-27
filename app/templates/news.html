@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<!-- venv\Scripts\activate
+    set FLASK_APP=route
+    flask run -->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>My recipes</title>
+  <!-- flask: use static file -->
+  <!-- Custom styles for this template -->
+  <link href=" {{ url_for('static', filename='base.css') }}" rel="stylesheet">
+
+  <!-- Bootstrap core CSS -->
+  <link href=" {{ url_for('static', filename='bootstrap-5.0.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <!-- browser utilize-->
+  <!-- Custom styles for this template -->
+  <link href="../../static/base.css" rel="stylesheet">
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../static/bootstrap-5.0.1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style type="text/css">
+    .picbutton img {
+      display: inline-block;
+      margin-bottom: -3px;
+      margin-right: 10px;
+    }
+  </style>
+
+
+</head>
+<body>
+    <header id="head_menu_bar" style="padding-bottom:60px">
+        <nav class="navbar navbar-expand-md  fixed-top bg-main-color ">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <a class="navbar-brand ps-3 logo " style="width: 260px;" href="{{url_for('index')}}">My recipes</a>
+            <form class=" m-auto d-flex" action="{{ url_for('search') }}">
+              <input id="searchbox" name ="keyword" type="search" value="" class="form-control" placeholder="Search..." >
+              <button type="submit" style="border: 0; background: transparent">
+                  <img src="../../static/icons/search(2).png" width="40" height="40" />
+              </button>
+          </form>
+            <!-- when  login  show this bar -->
+            <div id="header_user_bar" class="pe-3 d-flex" style="width:260px">
+              <a href="{{url_for('profile',subname='info')}}"><img id="login_user_icon" class="ms-auto" src="" style="display:block; margin:0 auto;border-radius: 50%;padding:3px;"
+                width="40" height="40"/></a> 
+              <a href="{{url_for('news')}}" class="nav-link px-1 profilebar-text ">For you</a>
+              <a href="/profile/favorite" class="nav-link px-1 profilebar-text">Favorite</a>
+              <button onclick="javascript:window.location.href='/editrecipe/0'" class="user-bar-button">New recipe</button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+    <main>
+        <div id="main_sight" class="container-md " style="max-width: 1140px;">
+
+          <div class="container d-flex pb-5 ">
+            <!--user information box-->
+            <div style="width:25%; height:100%; background: url('../static/icons/news_background.jpg'); background-repeat:repeat-x; width: 218px;height: 288px;margin-right: auto;border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem; font-size: 5px">
+                <div style="height:50%;">
+
+                    <!--user profile picture -->
+                    <div class="mt-4 center-block" style="text-align: center;">
+                      <img id="user_icon" class="align-self-center rounded-circle"src="" style="border-radius: 50%;padding:3px;" width="80" height="80">
+                    </div>
+                    <div id="user_card_id" class="user_card_id mt-3">
+                      </div>
+                    <!--user info-->
+                    <div class="mx-auto" style="text-align: center; width:50%;">
+                      <table id="user_info" class="table">
+                      </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="recommend_recipes" class="row row-cols-1 mb-3 pe-5 " style="width:75%;border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;"></div>
+    </main>
+
+
+  <script src="{{ url_for('static', filename='bootstrap-5.0.1-dist/js/bootstrap.bundle.min.js')}}"></script>
+  <script type=text/javascript src="{{url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+  <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+      var usersrc="{{usersrc}}";
+      var login_status="{{login_status}}";
+
+      //login check
+      $(function() {
+            if (login_status == 'true') {
+                  document.getElementById("header_user_bar").style.display="flex"; 
+                  document.getElementById("login_user_icon").src= usersrc;
+              }
+      })
+      $(function() {
+        $.getJSON($SCRIPT_ROOT + '/getnews',function(data) {
+            // get likes,subscribes,favorites
+            str_recommend_recipes=''
+            str_user_card_id="<p> "+data['userid']+"</p>";
+
+            str_user_info="<tbody> <tr style=\"color:black; font-size:10pt;\"class=\"text-center\"> <td>"+data['getlikes']+"</td>"+
+                          "<td>"+data['getfollowers']+"</td>"+
+                          "<tr style=\"color:black; font-size:10pt; background-color:#F5F5F5\" class=\"text-center\"><td>likes</td>"+"<td>followers</td></tr></tbody>"
+
+
+            for (var value of data['recipes']) {
+              if (value['like'] === "true") {
+                  var heart_src = "../../static/icons/like_full.png";
+                  var heart_value = true;
+                  } else {
+                  var heart_src = "../../static/icons/like_2_32.png";
+                  var heart_value = false;
+                   }
+              str_recommend_recipes+= "<div id=\""+value['recipeid']+"\"class=\"\" >"+
+                        "<div class=\"card mt-3 mb-3  rounded-3 shadow-sm\">"+
+                          "<div class=\"card-body row\">"+
+                            "<div class=\"col-xs-4 col-sm-2 align-self-start\" >"+
+                              "<img src=\""+value['contributorsrc']+"\"style=\"border-radius: 50%;padding:3px;\" width=\"80\" height=\"80\"/>"+
+                            "</div>"+
+                            "<div class=\"mt-3 col align-self-start\" >"+
+                              "<p class = \"my-auto\"style=\"color:black;font-size:17px;\"><td>"+value['contributorid']+" </p>"+
+                              "<p class = \"my-auto\"style=\"color:#7F7F7F;font-size:13px;\"> Create in: "+""+value['createtime'] +" </p>"+
+                            "</div>"+
+                          "</div>"+
+
+                          "<div class=\"card-body row\">"+
+                            "<div class=\"col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-2 align-self-start\" >"+
+                              "<img src=\""+value['src']+"\"class=\"card-img-top\"/>"+
+                              "</div>"+
+                            "<div class=\"col-xs-8 col-xs-offset-4 col-sm-6 col-sm-offset-3 align-self-start\"style=\"height:100%;border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;\" >"+
+                                "<a class=\"recipe-title\" href=\"/recipe/"+value['recipeid']+"\"><h5 class=\"card-title text-center mt-3\" style=\"font-weight:bold\">"+value['title']+
+                              "</h5></a>"+
+                              "<p class=\" total_likes card-text text-center  mt-3\">"+value['totallikes']+" likes</p>"+
+                              "<input value=\""+value['totallikes']+"\" style=\"display:none;\"></input>"+
+                              "<div mb-0   mt-5 style=\"text-align:right\">"+
+                              "<input value=\""+value['recipeid']+"\" style=\"display:none;\"></input>"+
+                              "<img class=\"mt-4 like_icon\" value=\""+heart_value+"\" src=\""+heart_src+"\" type=\"button\""+
+                                "style=\"height: 32px; width: 32px;\">"+
+                            "</div>"+
+                            "</div>"+
+                            
+                          "</div>"+
+                    "</div>";
+           }  
+            document.getElementById("user_icon").src=data['usersrc'];
+            document.getElementById("user_card_id").innerHTML=str_user_card_id;
+            document.getElementById("user_info").innerHTML = str_user_info
+            document.getElementById("recommend_recipes").innerHTML = str_recommend_recipes
+            document.getElementById("user_icon").src=data['usersrc'];
+            document.getElementById("user_card_id").innerHTML=str_user_card_id;
+            document.getElementById("user_info").innerHTML = str_user_info
+            document.getElementById("recommend_recipes").innerHTML = str_recommend_recipes
+            $(".like_icon").click(function() {
+          totallikes =  $(this).parent().prev().val();
+          recipe_id = $(this).prev().val();
+          like_status = $(this).val();
+          if (like_status === '') {
+                $(this).val($(this).attr('value')==='true');
+                like_status = $(this).val();
+          }
+                if(like_status === 'true' || like_status === true) {
+                      $(this).attr("src","../../static/icons/like_2_32.png")
+                       totallikes--;
+                      $.post( $SCRIPT_ROOT + '/likeopration/0/'+ recipe_id);
+                       like_status = false;
+                }else{
+                      $(this).attr("src","../../static/icons/like_full.png")
+                      totallikes++;
+                      $.post( $SCRIPT_ROOT + '/likeopration/1/'+ recipe_id);
+                      like_status = true;
+                }
+          $(this).parent().prev().val(totallikes);
+          $(this).parent().prev().prev().html(totallikes+" likes");
+          $(this).val(like_status);
+            });
+
+
+        });
+      });
+      </script>
+
+</body>
+</html>

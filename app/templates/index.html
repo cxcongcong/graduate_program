@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>My recipes</title>
+    <!-- flask: use static file -->
+    <!-- Custom styles for this template -->
+    <link href=" {{ url_for('static', filename='base.css') }}" rel="stylesheet">
+    <link href=" {{ url_for('static', filename='style.css') }}" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href=" {{ url_for('static', filename='bootstrap-5.0.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- browser utilize-->
+    <!-- Custom styles for this template -->
+    <link href="../../static/base.css" rel="stylesheet">
+    <link href="../../static/style.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/bootstrap-5.0.1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <header id="head_menu_bar" style="padding-bottom:80px">
+        <nav class="navbar navbar-expand-md  fixed-top bg-main-color ">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <a class="navbar-brand ps-3 logo " style="width: 260px;" href="{{url_for('index')}}">My recipes</a>
+                <form class=" m-auto d-flex" action="{{ url_for('search') }}">
+                    <input id="searchbox" name="keyword" type="search" value="" class="form-control"
+                        placeholder="Search...">
+                    <button type="submit" style="border: 0; background: transparent">
+                        <img src="../../static/icons/search(2).png" width="40" height="40" />
+                    </button>
+                </form>
+                <!-- when  login  show this bar -->
+                <div id="header_user_bar" class="pe-3" style="display:none ; width:260px">
+                    <a href="{{url_for('profile',subname='info')}}"><img id="login_user_icon" class="ms-auto" src=""
+                            style="display:block; margin:0 auto;border-radius: 50%;padding:3px;" width="40"
+                            height="40" /></a>
+                    <a href="{{url_for('news')}}" class="nav-link px-1 profilebar-text ">For you</a>
+                    <a href="{{url_for('profile',subname='favorite')}}"
+                        class="nav-link px-1 profilebar-text">Favorite</a>
+                    <button onclick="javascript:window.location.href='/editrecipe/0'" class="user-bar-button">New
+                        recipe</button>
+                </div>
+                <!-- without login  show this bar -->
+                <div id="loginbutton" class=" pe-3 js-signin-modal-trigger" style="width: 260px;">
+                    <button type="button" class="user-bar-button ms-auto" style="display: block; height: 40px;" href="#0"
+                        data-signin="login">Login/Signup</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div id="main_sight" class="container-md " style="max-width: 1140px;">
+            <div id="quick_access" class="pb-4">
+                <div class="col-9 d-flex m-auto py-3">
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="breakfast and brunch">
+                        <button class="quick-access" tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Breakfast and Brunch</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="lunch box">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Lunch box</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="dinner">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Dinner</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="quick&easy">
+                        <button class="quick-access  " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Quick & Easy</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="vegan">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Vegan</button>
+                    </form>
+                </div>
+                <div class="col-9 d-flex m-auto py-3">
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="international food">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">International food</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="baking">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Baking</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="healthy food">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Healthy food</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="drink">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Drink</button>
+                    </form>
+                    <form class=" m-auto" action="{{ url_for('search') }}">
+                        <input style="display: none" name="type" value="dessert">
+                        <button class="quick-access " tabindex="-1" role="button" aria-disabled="true"
+                            type="submit">Dessert</button>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="container d-flex pb-5 ">
+                <div id="top_recipes" class="row row-cols-1 mb-3 pe-5 " style="width:80%"></div>
+                <div id="top_contributors" class=" ms-auto pb-5" style="width:20%"></div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="login_before" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Please Login!</strong>  
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cd-signin-modal js-signin-modal">
+            <!-- this is the entire modal form, including the background -->
+            <div id="login_signup_windows" class="cd-signin-modal__container">
+                <!-- this is the container wrapper -->
+                <div>
+                    <img src="../../static/icons/logincover.jpg" alt="Logo">
+                </div>
+
+                <div class="cd-signin-modal__block js-signin-modal-block" data-type="login">
+                    <!-- log in form -->
+                    <form class="cd-signin-modal__form" action="/login" method="POST">
+
+                        <p class="cd-signin-modal__fieldset">
+                            <input name="email"
+                                class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+                                id="signin-email" type="email" placeholder="Email Address *">
+                        </p>
+
+                        <p class="cd-signin-modal__fieldset">
+                            <input name="password"
+                                class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+                                id="signin-password" type="password" placeholder="Password *">
+                        </p>
+
+                        <p class="cd-signin-modal__fieldset">
+                            <input class="cd-signin-modal__input cd-signin-modal__input--full-width" type="submit"
+                                value="SIGN IN">
+                        </p>
+                        <p class="cd-signin-modal__fieldset js-signin-modal-trigger link-to-model"><a href="#0"
+                                data-signin="signup"> Don't have an account? Sign up</a></p>
+
+                    </form>
+
+                </div> <!-- cd-signin-modal__block -->
+
+                <div class="cd-signin-modal__block js-signin-modal-block" data-type="signup">
+                    <!-- sign up form -->
+                    <form class="cd-signin-modal__form" action="/signup" method="POST">
+                        <p class="cd-signin-modal__fieldset">
+                            <input name="id"
+                                class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+                                id="signup-username" type="text" placeholder="ID *">
+                        </p>
+
+                        <p class="cd-signin-modal__fieldset">
+                            <input name="email"
+                                class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+                                id="signup-email" type="email" placeholder="Email *">
+                        </p>
+
+                        <p class="cd-signin-modal__fieldset">
+                            <input name="password"
+                                class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding cd-signin-modal__input--has-border"
+                                id="signup-password" type="password" placeholder="Password *">
+                        </p>
+
+                        <p class="cd-signin-modal__fieldset">
+                            <input
+                                class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding"
+                                type="submit" value="CREATE ACCOUNT">
+                        </p>
+                        <p class="cd-signin-modal__fieldset js-signin-modal-trigger link-to-model"><a href="#0"
+                                data-signin="login">Have an account? Sign in</a></p>
+
+                    </form>
+                </div> <!-- cd-signin-modal__block -->
+                <a href="#0" class="cd-signin-modal__close js-close">Close</a>
+            </div> <!-- cd-signin-modal__container -->
+        </div> <!-- cd-signin-modal -->
+
+    </main>
+
+
+    <script src="{{ url_for('static', filename='bootstrap-5.0.1-dist/js/bootstrap.bundle.min.js')}}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='main.js')}}"></script>
+    <script type=text/javascript>
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+var usersrc="{{usersrc}}";
+  var login_status="{{login_status}}";
+
+  //login check
+  $(function() {
+      if (login_status =="true") {
+            document.getElementById("loginbutton").style.display="none";
+            document.getElementById("header_user_bar").style.display="flex"; 
+            document.getElementById("login_user_icon").src= usersrc;
+        }
+
+  })
+
+$(function() {
+    $.getJSON($SCRIPT_ROOT + '/getIndexInfo',function(data) {
+    str_contributor="<p class=\"index-head-text\">Popular Contributor</p>";
+    str_recipe="<p class=\"index-head-text\">TOP recipes</p>";
+    //loading contributor list
+    for (var value of data['contributor']) {
+        btn_sub_class = "contributor-subscribe-btn";
+        btn_title ="Subscribe contributor";
+        if(value['substatus'] == true)
+            {btn_sub_class = "contributor-subscribed-btn";
+            btn_title="Unsubscribe contributor";}
+        str_contributor+= "<div class=\"row pb-3\">"+
+                            "<div class=\"col-3\">"+
+                                "<img src=\""+value['src']+"\" style=\"display:block; margin:0 auto;border-radius: 50%;padding:3px;\" width=\"50\" height=\"50\"/>"+
+                            "</div>"+
+                            "<div class=\"ps-3 my-auto col-4\">"+
+                                "<div class=\"contributor_pro contributor-id-text py-0\">"+value['id']+"</div>"+
+                                "<input value=\""+value['uid']+"\" style=\"display:none;\"></input>"+
+                                "<button value='"+value['substatus']+"' class=\" subscribe_button "+btn_sub_class+" px-1\" data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\""+btn_title+"\" >subscribe</button>"+
+                            "</div>"+
+                        "</div>";
+    }
+
+    for (var value of data['recipes']) {
+        str_recipe+= "<div id=\""+value['id']+"\"class=\"col-sm-3 mb-2\">"+
+                         "<div class=\"card h-100 rounded-3 shadow-sm\">"+
+                            "<img src=\""+value['src']+"\"class=\"card-img-top\"/>"+
+                            "<div class=\"card-body\">"+
+                                "<a class=\"recipe-title\" href=\"/recipe/"+value['id'] +"\"><h5>"+value['title']+"</h5></a>"+
+                                "<p class=\"card-text\">"+value['description']+"</p>"+
+                                "<p class=\"card-text text-center\">By "+value['author']+" </p>"+
+                            "</div>"+
+                        "</div>"+
+                    "</div>";
+    }
+    document.getElementById("top_contributors").innerHTML = str_contributor;
+    $('.subscribe_button').click(function(){
+        var contributor_id=$(this).prev().val();// 获取button的上一个元素
+        var sub_status=$(this).val();
+        if(login_status=="true")
+        {
+            if(sub_status== "true") {
+                $(this).addClass("contributor-subscribe-btn");
+                $(this).removeClass("contributor-subscribed-btn");
+                $.post( $SCRIPT_ROOT + '/subscribeopration/0/'+ contributor_id);
+                        sub_status = false;
+                    }else{
+                $(this).addClass("contributor-subscribed-btn" );
+                $(this).removeClass("contributor-subscribe-btn");
+                $.post( $SCRIPT_ROOT + '/subscribeopration/1/'+ contributor_id);
+                        sub_status = true;
+                }
+                $(this).val(sub_status);
+        }
+        else
+        {
+          $("#login_before").modal("show");
+        }		
+    });
+    document.getElementById("top_recipes").innerHTML = str_recipe;
+  });
+});
+</script>
+</body>
+
+</html>

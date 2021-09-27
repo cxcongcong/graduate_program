@@ -1,0 +1,23 @@
+
+<<<<<<< Updated upstream
+app/__pycache__/fuction.cpython-38.pyc
+*.iml
+*.xml
+*.pyc
+=======
+*.iml
+*.xml
+*.pyc
+*.pyc
+app/__pycache__/models.cpython-38.pyc
+>>>>>>> Stashed changes
+*.pyc
+__pycache__/config.cpython-38.pyc
+*.iml
+*.ini
+*.py
+migrations/README
+*.mako
+.idea/misc.xml
+.idea/capstoneproject-comp9900-h13a-abouttograduate.iml
+app/__pycache__/__init__.cpython-38.pyc
